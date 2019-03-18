@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.example.manager.wxmanager.dao.NoticeDAO">
+        <select id="query" parameterType="com.example.manager.wxmanager.model.NoticeModel" resultType="com.example.manager.wxmanager.model.NoticeModel">
+            SELECT DISTINCT
+                n.*,
+                a.address_name
+            FROM
+                m_notice n
+            LEFT JOIN m_address a ON n.address_code = a.address_code
+            LEFT JOIN m_user u ON u.user_address_code = n.address_code
+            WHERE n.data_flag = 0
+            <if test="userCode != null and userCode != ''">
+                AND (u.user_code = #{userCode} or n.address_code is null)
+            </if>
+            <if test="addressCode != null and addressCode != ''">
+                AND (u.user_address_code = #{addressCode} or n.address_code is null)
+            </if>
+            ORDER BY
+               n.create_time DESC
+        </select>
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.example.manager.wxmanager.dao.RepairDAO">
+        <select id="query" parameterType="com.example.manager.wxmanager.model.RepairModel" resultType="com.example.manager.wxmanager.model.RepairModel">
+            SELECT
+                r.*,
+                u.true_name,
+                u.user_phone,
+                u.dormitory_code,
+                a.address_name,
+                u.user_address_code
+            FROM
+                m_user u
+            LEFT JOIN m_repair r ON u.user_code = r.user_code
+            LEFT JOIN m_address a ON u.user_address_code = a.address_code
+            WHERE
+                r.data_flag = 0
+            <if test="userCode != null and userCode !='' ">
+                AND r.user_code = #{userCode}
+            </if>
+            <if test="addressCode != null and addressCode !='' ">
+                AND u.user_address_code = #{addressCode}
+            </if>
+            order by create_time desc
+        </select>
+</mapper>

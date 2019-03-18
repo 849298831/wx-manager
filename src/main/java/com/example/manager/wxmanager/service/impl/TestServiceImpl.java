@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
-import javax.xml.ws.Action;
 import java.util.List;
 
 @Service
@@ -38,7 +37,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public  PageInfo<TestModel> testSelectModelPage(TestModel testModel) {
-        Page<?> objects = PageHelper.startPage(testModel);
+        PageHelper.startPage(testModel);
         List<TestModel> testModels = testDAO.selectAll();
         PageInfo<TestModel> testModelPageInfo = new PageInfo<>(testModels);
         return testModelPageInfo;
